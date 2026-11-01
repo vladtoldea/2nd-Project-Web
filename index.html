@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Create your account – Shortlist</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ======================================================================
+     #region PERSON 1 – Page shell, progress tracker, Step 1 "Account"
+     Owns: <header>, skip link, progress list, Step 1 fieldset, password
+     popover, and the "Base / layout / theme" part of styles.css.
+     Controls used: text, email, password.
+     ====================================================================== -->
+<a class="skip-link" href="#main">Skip to the form</a>
+
+<header class="site-header">
+  <p class="brand">Shortlist</p>
+  <h1>Create your account</h1>
+  <p class="lead">Tell us a bit about you and the work you want. It takes about three minutes. Fields marked <span aria-hidden="true">*</span><span class="visually-hidden">with an asterisk</span> are required.</p>
+</header>
+
+<!-- CSS-only progress: each step turns "done" when its fieldset is valid -->
+<nav aria-label="Form progress">
+  <ol class="progress">
+    <li><a href="#step-account">Account</a></li>
+    <li><a href="#step-personal">About you</a></li>
+    <li><a href="#step-jobs">Job preferences</a></li>
+    <li><a href="#step-finish">Finish</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<form action="#" method="post" enctype="multipart/form-data" aria-labelledby="form-title">
+  <h2 id="form-title" class="visually-hidden">Account registration form</h2>
+
+  <fieldset id="step-account">
+    <legend>Step 1 · Your account</legend>
+
+    <div class="field">
+      <label for="username">Username <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id="username" name="username" required minlength="3" maxlength="20"
+             pattern="[A-Za-z0-9_]{3,20}" autocomplete="username" autocapitalize="none" spellcheck="false"
+             aria-describedby="username-hint username-err">
+      <p id="username-hint" class="hint">3–20 characters: letters, numbers and underscores.</p>
+      <p id="username-err" class="error">Use 3–20 letters, numbers or underscores, with no spaces.</p>
+    </div>
+
+    <div class="field">
+      <label for="email">Email address <span class="req" aria-hidden="true">*</span></label>
+      <input type="email" id="email" name="email" required autocomplete="email" inputmode="email"
+             placeholder="name@example.com" aria-describedby="email-hint email-err">
+      <p id="email-hint" class="hint">We send a confirmation link here.</p>
+      <p id="email-err" class="error">Enter a valid email address, like name@example.com.</p>
+    </div>
+
+    <div class="field">
+      <label for="password">Password <span class="req" aria-hidden="true">*</span></label>
+      <input type="password" id="password" name="password" required minlength="8" maxlength="64"
+             pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,64}" autocomplete="new-password"
+             aria-describedby="password-hint password-err">
+      <p id="password-hint" class="hint">
+        At least 8 characters with a lowercase letter, an uppercase letter and a number.
+        <button type="button" class="link-btn" popovertarget="pw-tips">Tips for a strong password</button>
+      </p>
+      <p id="password-err" class="error">Your password needs 8+ characters, including a lowercase letter, an uppercase letter and a number.</p>
+    </div>
+
+    <div id="pw-tips" popover class="popover" role="note" aria-label="Password tips">
+      <h3>Choose a strong password</h3>
+      <ul>
+        <li>Use a short sentence, such as “blue-bikes-ride-fast-7”.</li>
+        <li>Avoid your name, birthday or common words.</li>
+        <li>Use a password manager so you don’t have to remember it.</li>
+      </ul>
+      <button type="button" popovertarget="pw-tips" popovertargetaction="hide">Close</button>
+    </div>
+  </fieldset>
+  <!-- #endregion PERSON 1 -->
+
+  <!-- ====================================================================
+       #region PERSON 2 – Step 2 "About you"
+       Owns: Step 2 fieldset and the "Form controls: text / select / file"
+       part of styles.css.
+       Controls used: text, date picker, tel, select with optgroups,
+       radio group with conditional field, file upload (image).
+       ==================================================================== -->
+  <fieldset id="step-personal">
+    <legend>Step 2 · About you</legend>
+
+    <div class="field">
+      <label for="fullname">Full name <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id="fullname" name="fullname" required autocomplete="name" aria-describedby="fullname-err">
+      <p id="fullname-err" class="error">Enter your full name.</p>
+    </div>
+
+    <div class="field">
+      <label for="birthdate">Date of birth <span class="req" aria-hidden="true">*</span></label>
+      <input type="date" id="birthdate" name="birthdate" required min="1930-01-01" max="2010-10-25"
+             autocomplete="bday" aria-describedby="birthdate-hint birthdate-err">
+      <p id="birthdate-hint" class="hint">You must be 16 or older.</p>
+      <p id="birthdate-err" class="error">Pick a date that makes you at least 16 years old.</p>
+    </div>
+
+    <div class="field">
+      <label for="phone">Phone number <span class="optional">(optional)</span></label>
+      <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel"
+             pattern="\+?[0-9 \-]{7,18}" placeholder="+45 12 34 56 78" aria-describedby="phone-hint phone-err">
+      <p id="phone-hint" class="hint">Only used for interview invitations you accept.</p>
+      <p id="phone-err" class="error">Use digits, spaces and dashes only, for example +45 12 34 56 78.</p>
+    </div>
+
+    <div class="field">
+      <label for="country">Country <span class="req" aria-hidden="true">*</span></label>
+      <select id="country" name="country" required autocomplete="country-name" aria-describedby="country-err">
+        <option value="">Choose a country…</option>
+        <optgroup label="Europe">
+          <option>Denmark</option><option>France</option><option>Germany</option>
+          <option>Netherlands</option><option>Sweden</option><option>United Kingdom</option>
+        </optgroup>
+        <optgroup label="Americas">
+          <option>Canada</option><option>United States</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option>Australia</option><option>India</option><option>Japan</option>
+        </optgroup>
+      </select>
+      <p id="country-err" class="error">Choose your country from the list.</p>
+    </div>
+
+    <div class="field">
+      <fieldset class="group" aria-describedby="gender-hint">
+        <legend>Gender <span class="optional">(optional)</span></legend>
+        <p id="gender-hint" class="hint">Shown on your profile only if you choose to.</p>
+        <label class="choice"><input type="radio" name="gender" value="woman"> Woman</label>
+        <label class="choice"><input type="radio" name="gender" value="man"> Man</label>
+        <label class="choice"><input type="radio" name="gender" value="nonbinary"> Non-binary</label>
+        <label class="choice"><input type="radio" name="gender" value="self" id="gender-self"> Prefer to self-describe</label>
+        <label class="choice"><input type="radio" name="gender" value="none"> Prefer not to say</label>
+        <!-- Conditional field: only visible when "self-describe" is selected (CSS :has) -->
+        <div class="conditional if-self">
+          <label for="gender-text">How do you describe your gender?</label>
+          <input type="text" id="gender-text" name="gender_text" maxlength="40">
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="field">
+      <label for="photo">Profile photo <span class="optional">(optional)</span></label>
+      <input type="file" id="photo" name="photo" accept="image/png, image/jpeg, image/webp" aria-describedby="photo-hint">
+      <p id="photo-hint" class="hint">PNG, JPG or WebP. A clear face photo helps recruiters recognise you.</p>
+    </div>
+  </fieldset>
+  <!-- #endregion PERSON 2 -->
+
+  <!-- ====================================================================
+       #region PERSON 3 – Step 3 "Job preferences"
+       Owns: Step 3 fieldset and the "Form controls: range / checkbox /
+       datalist / number / textarea" part of styles.css.
+       Controls used: text + datalist, select (conditional), range slider
+       with tick marks, number inputs, checkboxes, textarea, date, PDF upload.
+       ==================================================================== -->
+  <fieldset id="step-jobs">
+    <legend>Step 3 · The work you want</legend>
+
+    <div class="field">
+      <label for="role">Desired job title <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id="role" name="role" required list="roles" autocomplete="off" aria-describedby="role-hint role-err">
+      <datalist id="roles">
+        <option value="Front-end developer"><option value="Back-end developer">
+        <option value="Full-stack developer"><option value="UX designer">
+        <option value="Data analyst"><option value="DevOps engineer">
+      </datalist>
+      <p id="role-hint" class="hint">Pick a suggestion or type your own.</p>
+      <p id="role-err" class="error">Tell us which job title you are looking for.</p>
+    </div>
+
+    <div class="field">
+      <label for="status">Current situation <span class="req" aria-hidden="true">*</span></label>
+      <select id="status" name="status" required aria-describedby="status-err">
+        <option value="">Choose one…</option>
+        <option value="student">Student</option>
+        <option value="employed">Employed</option>
+        <option value="seeking">Between jobs</option>
+      </select>
+      <p id="status-err" class="error">Choose your current situation.</p>
+      <!-- Conditional field: only visible when "Student" is selected -->
+      <div class="conditional if-student">
+        <label for="school">School or university</label>
+        <input type="text" id="school" name="school" autocomplete="organization">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="experience">Years of experience</label>
+      <input type="range" id="experience" name="experience" min="0" max="20" step="1" value="0"
+             list="exp-ticks" aria-describedby="exp-hint">
+      <datalist id="exp-ticks">
+        <option value="0" label="0"></option><option value="5" label="5"></option>
+        <option value="10" label="10"></option><option value="15" label="15"></option>
+        <option value="20" label="20+"></option>
+      </datalist>
+      <p id="exp-hint" class="hint">Slide from 0 (no experience yet) to 20+ years. Arrow keys change the value by 1.</p>
+    </div>
+
+    <div class="field">
+      <label for="salary">Expected yearly salary in EUR <span class="optional">(optional)</span></label>
+      <input type="number" id="salary" name="salary" min="0" max="500000" step="1000" inputmode="numeric"
+             placeholder="45000" aria-describedby="salary-err">
+      <p id="salary-err" class="error">Enter a number between 0 and 500,000.</p>
+    </div>
+
+    <div class="field">
+      <fieldset class="group">
+        <legend>Where do you want to work? <span class="optional">(pick any)</span></legend>
+        <label class="choice"><input type="checkbox" name="mode" value="remote"> Remote</label>
+        <label class="choice"><input type="checkbox" name="mode" value="hybrid"> Hybrid</label>
+        <label class="choice"><input type="checkbox" name="mode" value="onsite"> On-site</label>
+      </fieldset>
+    </div>
+
+    <div class="field">
+      <label for="start">Earliest start date <span class="optional">(optional)</span></label>
+      <input type="date" id="start" name="start" min="2026-10-25">
+    </div>
+
+    <div class="field">
+      <label for="skills">Your top skills <span class="optional">(optional)</span></label>
+      <textarea id="skills" name="skills" rows="4" maxlength="300" aria-describedby="skills-hint"></textarea>
+      <p id="skills-hint" class="hint">Up to 300 characters, e.g. “HTML, CSS, teamwork, Git”.</p>
+    </div>
+
+    <div class="field">
+      <label for="cv">CV <span class="optional">(optional, PDF)</span></label>
+      <input type="file" id="cv" name="cv" accept="application/pdf">
+    </div>
+  </fieldset>
+  <!-- #endregion PERSON 3 -->
+
+  <!-- ====================================================================
+       #region PERSON 4 – Step 4 "Finish", feedback, a11y, responsive, docs
+       Owns: Step 4 fieldset, footer, and the "Validation feedback / focus /
+       responsive / dark mode / reduced motion" part of styles.css,
+       plus README.md and docs/ (wireframes + evaluation).
+       Controls used: radio group, checkboxes, terms checkbox, popover, submit/reset.
+       ==================================================================== -->
+  <fieldset id="step-finish">
+    <legend>Step 4 · Stay in touch</legend>
+
+    <div class="field">
+      <fieldset class="group">
+        <legend>How often should we email job matches? <span class="req" aria-hidden="true">*</span></legend>
+        <label class="choice"><input type="radio" name="frequency" value="daily" required> Daily</label>
+        <label class="choice"><input type="radio" name="frequency" value="weekly" checked> Weekly</label>
+        <label class="choice"><input type="radio" name="frequency" value="never"> Never</label>
+      </fieldset>
+    </div>
+
+    <div class="field">
+      <fieldset class="group">
+        <legend>Notify me about <span class="optional">(pick any)</span></legend>
+        <label class="choice"><input type="checkbox" name="notify" value="matches" checked> New job matches</label>
+        <label class="choice"><input type="checkbox" name="notify" value="messages"> Messages from recruiters</label>
+        <label class="choice"><input type="checkbox" name="notify" value="tips"> Career tips</label>
+      </fieldset>
+    </div>
+
+    <div class="field">
+      <label class="choice terms">
+        <input type="checkbox" name="terms" required aria-describedby="terms-err">
+        <span>I accept the <button type="button" class="link-btn" popovertarget="terms-info">terms and privacy notice</button> <span class="req" aria-hidden="true">*</span></span>
+      </label>
+      <p id="terms-err" class="error">You need to accept the terms to create an account.</p>
+    </div>
+
+    <div id="terms-info" popover class="popover" role="note" aria-label="Terms summary">
+      <h3>Terms in short</h3>
+      <ul>
+        <li>We store your profile to match you with jobs.</li>
+        <li>Recruiters only see your profile if you apply.</li>
+        <li>You can download or delete your data at any time.</li>
+      </ul>
+      <button type="button" popovertarget="terms-info" popovertargetaction="hide">Close</button>
+    </div>
+  </fieldset>
+
+  <div class="actions">
+    <button type="submit" class="btn-primary">Create account</button>
+    <button type="reset" class="btn-secondary">Clear form</button>
+  </div>
+</form>
+</main>
+
+<footer class="site-footer">
+  <p>Already have an account? <a href="#">Log in</a></p>
+</footer>
+<!-- #endregion PERSON 4 -->
+
+</body>
+</html>

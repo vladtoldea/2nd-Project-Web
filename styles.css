@@ -1,0 +1,179 @@
+/* ==========================================================================
+   #region PERSON 1 – Design tokens, light/dark theme, base layout, progress
+   ========================================================================== */
+:root {
+  color-scheme: light dark;
+  --bg: #eaf0f5;
+  --surface: #ffffff;
+  --text: #14213d;        /* 15:1 on surface */
+  --muted: #3f4a5e;       /* 9:1 on surface */
+  --primary: #0b6262;     /* 6.9:1 on white */
+  --on-primary: #ffffff;
+  --border: #5f6b7d;      /* 5.4:1, meets 3:1 for UI components */
+  --ok: #0b6b3a;
+  --err: #b3261e;
+  --focus: #1a4fd6;
+  --radius: 10px;
+  --tap: 3rem;            /* 48px minimum touch target */
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1623; --surface: #19233a; --text: #eef2fa; --muted: #b9c3d6;
+    --primary: #5fd0c8; --on-primary: #06201f; --border: #8d9bb2;
+    --ok: #6ee7a0; --err: #ff9d95; --focus: #9bb8ff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 1.0625rem/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  padding: 0 1rem 3rem;
+}
+h1, h2, h3, .brand { font-family: Georgia, "Times New Roman", serif; }
+.site-header, main, .site-footer, nav { max-width: 42rem; margin-inline: auto; }
+.site-header { padding-top: 2rem; }
+.brand { margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+h1 { margin: .25rem 0 .5rem; font-size: clamp(1.9rem, 6vw, 2.6rem); line-height: 1.15; }
+.lead { margin: 0 0 1.25rem; color: var(--muted); max-width: 60ch; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+.skip-link {
+  position: absolute; left: 1rem; top: -4rem; background: var(--primary); color: var(--on-primary);
+  padding: .75rem 1rem; border-radius: var(--radius); z-index: 10;
+}
+.skip-link:focus { top: 1rem; }
+
+/* Progress tracker – a step turns "done" when its fieldset is valid (no JS) */
+.progress { display: flex; gap: .5rem; list-style: none; margin: 0 0 1rem; padding: 0; counter-reset: step; }
+.progress li { flex: 1; counter-increment: step; }
+.progress a {
+  display: block; min-height: var(--tap); padding: .5rem; text-align: center; text-decoration: none;
+  color: var(--muted); border-bottom: 5px solid var(--border); font-size: .9rem;
+}
+.progress a::before { content: counter(step) ". "; }
+body:has(#step-account:valid)  .progress li:nth-child(1) a,
+body:has(#step-personal:valid) .progress li:nth-child(2) a,
+body:has(#step-jobs:valid)     .progress li:nth-child(3) a,
+body:has(#step-finish:valid)   .progress li:nth-child(4) a {
+  color: var(--ok); border-color: var(--ok); font-weight: 700;
+}
+body:has(#step-account:valid)  .progress li:nth-child(1) a::before,
+body:has(#step-personal:valid) .progress li:nth-child(2) a::before,
+body:has(#step-jobs:valid)     .progress li:nth-child(3) a::before,
+body:has(#step-finish:valid)   .progress li:nth-child(4) a::before { content: "✓ "; }
+
+a { color: var(--primary); }
+.site-footer { text-align: center; margin-top: 2rem; }
+/* #endregion PERSON 1 */
+
+/* ==========================================================================
+   #region PERSON 2 – Fieldsets, labels, text inputs, select, file input, radios
+   ========================================================================== */
+fieldset#step-account, fieldset#step-personal, fieldset#step-jobs, fieldset#step-finish {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.25rem 1rem 1rem; margin: 0 0 1.25rem; min-width: 0;
+}
+fieldset#step-account > legend, fieldset#step-personal > legend,
+fieldset#step-jobs > legend, fieldset#step-finish > legend {
+  font: 700 1.3rem Georgia, serif; padding: 0 .5rem; color: var(--primary);
+}
+.field { margin-bottom: 1.25rem; }
+label, .group > legend { display: block; font-weight: 600; margin-bottom: .35rem; }
+.req { color: var(--err); }
+.optional { font-weight: 400; color: var(--muted); }
+
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"],
+input[type="date"], input[type="number"], select, textarea, input[type="file"] {
+  width: 100%; min-height: var(--tap); padding: .6rem .75rem; font: inherit;
+  color: var(--text); background: var(--surface); border: 2px solid var(--border); border-radius: 8px;
+}
+textarea { resize: vertical; }
+input[type="file"]::file-selector-button {
+  min-height: 2.25rem; margin-right: .75rem; padding: .35rem .9rem; font: inherit; font-weight: 600;
+  color: var(--on-primary); background: var(--primary); border: 0; border-radius: 6px; cursor: pointer;
+}
+.group { border: 0; padding: 0; margin: 0; min-width: 0; }
+.hint { margin: .3rem 0 0; font-size: .9rem; color: var(--muted); }
+
+/* Radios & checkboxes: large tap area */
+.choice {
+  display: flex; align-items: center; gap: .75rem; min-height: var(--tap);
+  padding: .25rem .5rem; font-weight: 400; cursor: pointer; border-radius: 8px;
+}
+.choice:hover { background: color-mix(in srgb, var(--primary) 12%, transparent); }
+.choice input { width: 1.5rem; height: 1.5rem; flex: none; accent-color: var(--primary); }
+.terms { align-items: flex-start; }
+/* #endregion PERSON 2 */
+
+/* ==========================================================================
+   #region PERSON 3 – Range slider, conditional fields, popovers
+   ========================================================================== */
+input[type="range"] { width: 100%; min-height: var(--tap); accent-color: var(--primary); cursor: pointer; }
+datalist#exp-ticks {
+  display: flex; justify-content: space-between; margin-top: -.5rem; font-size: .85rem; color: var(--muted);
+}
+datalist#exp-ticks option { padding: 0; min-height: auto; }
+
+/* Conditional fields (hidden until the controlling option is selected) */
+.conditional { display: none; margin-top: .75rem; padding-left: .75rem; border-left: 4px solid var(--primary); }
+.field:has(#gender-self:checked) .if-self,
+.field:has(#status option[value="student"]:checked) .if-student { display: block; }
+
+/* Popovers (native HTML, no JS) */
+.link-btn {
+  background: none; border: 0; padding: .25rem 0; font: inherit; color: var(--primary);
+  text-decoration: underline; cursor: pointer; min-height: 2rem;
+}
+.popover {
+  max-width: min(26rem, 92vw); padding: 1.25rem; color: var(--text); background: var(--surface);
+  border: 2px solid var(--primary); border-radius: var(--radius); box-shadow: 0 10px 30px rgb(0 0 0 / .3);
+}
+.popover::backdrop { background: rgb(0 0 0 / .35); }
+.popover h3 { margin-top: 0; }
+.popover button {
+  min-height: var(--tap); padding: .5rem 1.25rem; font: inherit; font-weight: 600; cursor: pointer;
+  color: var(--on-primary); background: var(--primary); border: 0; border-radius: 8px;
+}
+/* #endregion PERSON 3 */
+
+/* ==========================================================================
+   #region PERSON 4 – Validation feedback, focus, buttons, responsive, motion
+   ========================================================================== */
+/* Feedback appears only after the user has interacted (:user-invalid / :user-valid) */
+.error { display: none; margin: .3rem 0 0; font-size: .9rem; font-weight: 600; color: var(--err); }
+.error::before { content: "⚠ Error: "; }
+.field:has(:user-invalid) .error { display: block; }
+.field:has(:user-invalid) .hint { display: none; }
+input:user-invalid, select:user-invalid, textarea:user-invalid { border-color: var(--err); }
+input:user-valid, select:user-valid, textarea:user-valid { border-color: var(--ok); }
+
+/* Visible focus for every interactive element */
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { border-color: var(--focus); }
+
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+.actions button {
+  min-height: var(--tap); padding: .6rem 1.5rem; font: inherit; font-weight: 700; border-radius: 8px; cursor: pointer;
+}
+.btn-primary { flex: 1 1 14rem; color: var(--on-primary); background: var(--primary); border: 2px solid var(--primary); }
+.btn-secondary { color: var(--text); background: transparent; border: 2px solid var(--border); }
+.btn-primary:hover { filter: brightness(1.1); }
+
+/* Responsive: single column by default (mobile first), roomier on desktop */
+@media (min-width: 40rem) {
+  body { padding-inline: 2rem; }
+  fieldset#step-account, fieldset#step-personal, fieldset#step-jobs, fieldset#step-finish { padding: 1.75rem 2rem 1.25rem; }
+  .progress a { font-size: 1rem; }
+}
+@media (max-width: 30rem) {
+  .progress a { font-size: .75rem; padding-inline: .15rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+/* #endregion PERSON 4 */
